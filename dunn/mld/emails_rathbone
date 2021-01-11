@@ -1,0 +1,117 @@
+Subject: mixed layer depth
+Date: Tue, 4 Oct 2005 14:42:04 +1000
+From: "Rathbone, Chris \(CMAR, Hobart\)" <Chris.Rathbone@csiro.au>
+To: "Dunn, Jeff 
+
+Jeff, Ken,
+Can either of you point me to any gridded MLD fields covering the southern ocean in our region to 60 Degs South? The CARS data cuts out at approx 50 south so not quite far enough. Climatology would do but actual time data for 1998-2000 would be better.
+cheers
+Chris Rathbone
+------------------------------------------------------------------------
+Date: Tue, 4 Oct 2005 15:59:15 +1100 (EDT)
+From: Jeff Dunn <jeff.dunn@csiro.au>
+Subject: Re: mixed layer depth
+To: Ken.Ridgway@csiro.au, Chris.Rathbone@csiro.au
+Hi Chris
+
+see /home/eez_data/atlas/mld_south.mat - it spans 45S-60S, 90-190E. This isfrom
+all historical data. By "actual time data for 1998-2000" presumably you mean MLD
+derived just for any CTD casts in that time period, not mapped fields? I could
+provide you with those values, if it is of use, but certainly not enough data in
+that period to attempt to map it.
+
+Jeff
+------------------------------------------------------------------------
+Subject: RE: mixed layer depth
+Date: Tue, 4 Oct 2005 15:51:20 +1000
+
+Jeff,
+Thanks, that will be useful. I assume that where it overlaps with 
+/home/eez_data/atlas/mld_nov00 it is the same, because I will need to 
+merge it with that.
+
+I need mapped fields at present. Maybe sometime later that individual cast
+ data would be useful. It might have good enough coverage near the SAZ 
+sediment trap site?
+
+By the way, can you tell me how you derived mld from the ctd data? I thought
+there was some contention about the best way to do that.
+
+cheers
+Chris
+-----------------------------------------------------------------------
+Date: Tue, 4 Oct 2005 17:02:35 +1100 (EDT)
+From: Jeff Dunn <jeff.dunn@csiro.au>
+Subject: RE: mixed layer depth
+To: Chris.Rathbone@csiro.au
+
+> Thanks, that will be useful. I assume that where it overlaps with
+/home/eez_data/atlas/mld_nov00
+> it is the same, because I will need to merge it with that.
+
+Sorry - the two versions were done at different times so they may not overlap
+perfectly - you might have to fudge a fade from one to the other.
+
+> I need mapped fields at present. Maybe sometime later that individual cast
+data would be useful. It might have good enough coverage near the SAZ sediment
+trap site?
+
+Yes- it might be adequate there.
+
+> By the way, can you tell me how you derived mld from the ctd data? I thought
+there was some contention about the best way to do that.
+
+There is not "some contention" - there is backstabbing and open abuse! It is
+ a very vague thing to measure and it really depends on what you mean by MLD. I
+generally take high resolution CTD, interpolate to 2m depths, take nearest T
+ and S values to 10m as reference "surface" values, find depths at which the 
+profiles
+first differ from the "surface" values by .4C or .03 psu, and use the shallower
+of the 2 depths. Sometimes I also use a density criterion, but .. arrrk I have
+to go...
+
+More tomorrow
+
+Jeff
+----------------------------------------------------------------------
+Date: Wed, 5 Oct 2005 09:18:47 +1100 (EDT)
+From: Jeff Dunn <jeff.dunn@csiro.au>
+Subject: RE: mixed layer depth
+To: Chris.Rathbone@csiro.au
+
+Hi Chris
+
+Just to finish the brief description of the MLD fields:
+
+with MLD, how the data is mapped is as important as how MLd is defined 
+for each cast, because MLD values have a weird distribution. Eg the ML 
+may be 20-40m for weeks, then a storm causes mixing down to 500m. Another
+ storm might soon mix to 150m while the water is still nearly mixed down 
+to 500m from the earlier one.
+All very messy, and a simple average is not very appropriate. However, the
+mapped fields ARE based around simple averaging. To anyone who says it is 
+wrong I can only say "of course it is - so why did you ask for maps of MLD!"
+One way to slightly improve it might be to have 2 fields: "mean non-storm MLD"
+ and "mean storm MLD", OR "most common MLD" and "max MLD range". These are 
+not easy to define and map (with the extremely sparse data we have, given 
+also that we'd need to resolve seasonal cycles of these parameters), but 
+I'll have to give it a go sometime.
+
+Chris - if you see that a particular treatment is more sensible for your
+application then let me know - I may in the future be able to tailor a 
+product to that purpose.
+
+Jeff
+
+-----------------------------------------------------------------------
+Subject: RE: mixed layer depth
+Date: Wed, 5 Oct 2005 08:52:26 +1000
+From: "Rathbone, Chris \(CMAR, Hobart\)" <Chris.Rathbone@csiro.au>
+To: "Dunn, Jeff \(CMAR, Hobart\)" <Jeff.Dunn@csiro.au>
+
+Jeff,
+thanks for your detailed and interesting reply.
+For primary productivity what is needed is probably even more complex - the depth to which particles have recently (week -month??) been in the 0-20 m photic zone!! However the error in the MLD is unlikely to be the greatest uncertainty in the productivity calculation so anything will do in the meantime.
+cheers
+Chris
+------------------------------------------------------------------------

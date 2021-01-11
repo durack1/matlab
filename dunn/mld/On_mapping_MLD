@@ -1,0 +1,30 @@
+(frm email to Bronte, May 06)
+
+I am reminded that, although you can map this stuff in minutes I have spent 
+weeks on it in the past, so although the circa 2000 version used much less data 
+it was a pretty well groomed product. The problem is that mapping usually 
+assumes data variance is guassian, or at least some sort of central 
+distribution. On the other hand, MLD is in many places bi-modal or multi-modal - 
+in the south you can get MLDs of 10m and 400m a few days apart in the same spot. 
+The upshot is that unless you have an extremely good data distribution in space 
+and time (we never do) then the maps will show lots of ugly looking structure. 
+The cheat is to crank up lengthscales so that it all gets smeared out, and to 
+hell with any real features. Part of what I did previously was some careful 
+"super-ob-ing" - pre-averaging - to absorb the high-frequencies, prior to 
+mapping. Anyway, I can't put the energy into doing that just now, so I present 2 
+versions:  the c2000 MLD fields (which you have already) with nutrients at the 
+monthly MLDs, and the same for my best shot for now of mapping new data. 
+(It is pretty interesting to calc MLD directly from CARS T and S mean fields, 
+but not very useful - another story...)
+
+
+March 2011
+
+Fitted harmonics cause large seasonal overshoots (and even large -ve means)
+in some locations (esp Nth Atlantic). Much truer to data if cap mean
+at a small postive value (2m?) and leave the seasonal overshoot for the 
+user to cap. If suppress -ve seasonal values using season_nonneg, the
+resulting curve is a poorer fit to the data which in most cases has a
+season of flat near-zero MLD and a sharp seasonal peak of high values.
+See MLD_seas_Bay_Biscay.jpg
+

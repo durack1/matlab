@@ -1,0 +1,50 @@
+
+   ------------- Create a quick MLD map for 50S-60S ---------------
+
+
+[la,lo,tim,tt,ss]=get_all_csl([70 210 -65 -36],2,[1 2],[1:4 7 8 9],1:26,2);
+
+mlds = repmat(nan,[3 22777]);
+
+deps = csl_dep(1:26);
+bdep = -get_bath(lo,la);
+
+for ii=1:22777
+  mlds(:,ii)=mixld(tt(ii,:),ss(ii,:),deps,la(ii),lo(ii),bdep(ii),0);
+end
+
+stat(mlds(1,:))
+Stats for 18623 data, 4154 NaNs ignored
+      9.72    450.00     73.614     59.698    94.777     73.614
+
+stat(mlds(2,:))
+Stats for 12014 data, 10763 NaNs ignored
+     10.51    450.00     68.020     54.678    87.271     68.020
+
+stat(mlds(3,:))
+Stats for 12175 data, 10602 NaNs ignored
+     14.00    448.00     59.293     60.202    84.496     59.293
+
+MLD=min(mlds(1:2,:));
+
+stat(MLD)
+Stats for 19313 data, 3464 NaNs ignored
+      9.72    450.00     64.786     51.720    82.898     64.786
+
+[mn2,rq2,nq2,an2,sa2,dum,rmsr2] = loess(MLD',lo,la,x,y,doy,[1 2 3 4 8 13],[500 1700 300 2 1.8 1]);
+
+res = MLD-atdaypos(la,lo,doy,x,y,mn2,an2,sa2)';
+RMSR = interp2(x,y,rmsr2,lo,la);
+
+ii = find(abs(res)>(3.*RMSR'));
+
+whos ii
+  ii        1x15                     120  double array
+Grand total is 15 elements using 120 bytes
+
+jj=1:length(lo);
+jj(ii) = [];
+
+[mn3,rq2,nq2,an3,sa3] = loess(MLD',lo(jj),la(jj),x,y,doy(jj),[1 2 3 4 8 13],[500 1700 300 2 1.8 0]);
+
+-----------------------------------------------------------------------------

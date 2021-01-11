@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright 2002-2006 The MathWorks, Inc. -->
+<!-- $Revision: 1.4.4.8 $  $Date: 2006/12/15 19:26:13 $ -->
+<demos>
+   <name>Curve Fitting</name>
+   <type>toolbox</type>
+   <icon>$toolbox/matlab/icons/matlabicon.gif</icon>
+   <description isCdata="no">
+<p>
+The Curve Fitting Toolbox provides graphical user interfaces (GUIs) and 
+command-line functions for a variety of curve-fitting applications. 
+It includes integrated tools for previewing and preprocessing data, 
+developing and comparing standard and custom models, fitting with
+standard and robust methods, and analyzing fits.
+</p>
+</description>
+   <demoitem>
+	  <label>Importing and Smoothing Data </label>
+       <type>video</type>
+      <callback>playbackdemo('CurveFittingImportSmooth', 'toolbox/curvefit/web/demos')</callback>
+   </demoitem>
+   <demoitem>
+      <label>Fitting Periodic Data Using a Custom Equation</label>
+       <type>video</type>
+      <callback>playbackdemo('CurveFittingCustomEqn', 'toolbox/curvefit/web/demos')</callback>
+   </demoitem>
+</demos>

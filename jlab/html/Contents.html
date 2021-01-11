@@ -1,0 +1,186 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Contents</title>
+      <meta name="generator" content="MATLAB 7.4">
+      <meta name="date" content="2007-09-09">
+      <meta name="m-file" content="Contents"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content"><pre class="codeinput"><span class="comment">%   JLAB        - Matlab freeware for data analysis</span>
+<span class="comment">%   Author      - J. M. Lilly</span>
+<span class="comment">%   Requires    - Matlab Version 7.0 or higher</span>
+<span class="comment">%</span>
+<span class="comment">%   See "www.jmlilly.net/jmlsoft.html" for a brief introduction.</span>
+<span class="comment">%</span>
+<span class="comment">%   The most recent version of JLAB is available at "www.jmlilly.net".</span>
+<span class="comment">%   Send comments, questions, and bug reports to "lilly@esr.org".</span>
+<span class="comment">%</span>
+<span class="comment">%   This is copyrighted software and is distributed according to certain</span>
+<span class="comment">%   terms.  Type 'help jlab_license' for details.</span>
+<span class="comment">%</span>
+<span class="comment">%   JLAB is organized into a number of modules:</span>
+<span class="comment">%</span>
+<span class="comment">%     General purpose</span>
+<span class="comment">%     -----------------------------------------------------------------</span>
+<span class="comment">%     jarray     - Vector, matrix, and N-D array tools.</span>
+<span class="comment">%     jmath      - Mathematical aliases and basic functions.</span>
+<span class="comment">%     jpoly      - Special polynomials, matrices, and functions.</span>
+<span class="comment">%     jdataman   - Data management and manipulation.</span>
+<span class="comment">%     jgraph     - Fine-turning and customizing figures.</span>
+<span class="comment">%     jstrings   - Strings and groups of strings.</span>
+<span class="comment">%     jstats     - Statistical tools and probability distributions.</span>
+<span class="comment">%     jsignal    - Signal processing, wavelet and spectral analysis.</span>
+<span class="comment">%     jellipse   - Elliptical (bivariate) time series analysis.</span>
+<span class="comment">%</span>
+<span class="comment">%     Special purpose</span>
+<span class="comment">%     -----------------------------------------------------------------</span>
+<span class="comment">%     joceans    - Oceanography-specific functions.</span>
+<span class="comment">%     jsphere    - Spherical geometry and derivatives.</span>
+<span class="comment">%     jsatfun    - Satellite data treatment and design.</span>
+<span class="comment">%     jtriads    - Gravity-capillary triad interaction functions.</span>
+<span class="comment">%     jpapers    - Figures from papers by J.M. Lilly, i.e. myself.</span>
+<span class="comment">%</span>
+<span class="comment">%   Type 'help jarray' for contents of the JARRAY module, etc.</span>
+<span class="comment">%</span>
+<span class="comment">%   Some important general functions:</span>
+<span class="comment">%</span>
+<span class="comment">%     jlab_license  - License statement and permissions for JLAB package.</span>
+<span class="comment">%     jlab_version  - JLAB version number.</span>
+<span class="comment">%     jlab_changes  - Changes to JLAB in each release.</span>
+<span class="comment">%     jlab_issues   - Known bugs and other issues.</span>
+<span class="comment">%     jlab_runtests - Run test suite for JLAB package.</span>
+<span class="comment">%     jlab_settings - Specifies settings for customizable JLAB properties.</span>
+<span class="comment">%     jlab_acknowledgement - Sources of support for developing this software.</span>
+<span class="comment">%   _________________________________________________________________</span>
+<span class="comment">%   This is part of JLAB --- type 'help jlab' for more information</span>
+<span class="comment">%   (C) 2004--2007 J.M. Lilly --- type 'help jlab_license' for details</span>
+
+<span class="comment">%   Administrative</span>
+<span class="comment">%   jlab_list  - List of JLAB function properties.</span>
+<span class="comment">%   jlab_todo     - List of things to do for JLAB.</span>
+</pre><p class="footer"><br>
+            Published with MATLAB&reg; 7.4<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%   JLAB        - Matlab freeware for data analysis 
+%   Author      - J. M. Lilly
+%   Requires    - Matlab Version 7.0 or higher
+%
+%   See "www.jmlilly.net/jmlsoft.html" for a brief introduction.
+%
+%   The most recent version of JLAB is available at "www.jmlilly.net".
+%   Send comments, questions, and bug reports to "lilly@esr.org".
+%
+%   This is copyrighted software and is distributed according to certain
+%   terms.  Type 'help jlab_license' for details.
+% 
+%   JLAB is organized into a number of modules:
+%
+%     General purpose
+%     REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+%     jarray     - Vector, matrix, and N-D array tools.
+%     jmath      - Mathematical aliases and basic functions.
+%     jpoly      - Special polynomials, matrices, and functions.
+%     jdataman   - Data management and manipulation.
+%     jgraph     - Fine-turning and customizing figures.
+%     jstrings   - Strings and groups of strings.
+%     jstats     - Statistical tools and probability distributions. 
+%     jsignal    - Signal processing, wavelet and spectral analysis.
+%     jellipse   - Elliptical (bivariate) time series analysis.
+%
+%     Special purpose
+%     REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+%     joceans    - Oceanography-specific functions.
+%     jsphere    - Spherical geometry and derivatives.
+%     jsatfun    - Satellite data treatment and design.
+%     jtriads    - Gravity-capillary triad interaction functions. 
+%     jpapers    - Figures from papers by J.M. Lilly, i.e. myself.
+%
+%   Type 'help jarray' for contents of the JARRAY module, etc.
+%
+%   Some important general functions:
+%
+%     jlab_license  - License statement and permissions for JLAB package.
+%     jlab_version  - JLAB version number.
+%     jlab_changes  - Changes to JLAB in each release.
+%     jlab_issues   - Known bugs and other issues.
+%     jlab_runtests - Run test suite for JLAB package.
+%     jlab_settings - Specifies settings for customizable JLAB properties.
+%     jlab_acknowledgement - Sources of support for developing this software.
+%   _________________________________________________________________
+%   This is part of JLAB REPLACE_WITH_DASH_DASH- type 'help jlab' for more information
+%   (C) 2004REPLACE_WITH_DASH_DASH2007 J.M. Lilly REPLACE_WITH_DASH_DASH- type 'help jlab_license' for details        
+
+%   Administrative
+%   jlab_list  - List of JLAB function properties.
+%   jlab_todo     - List of things to do for JLAB.
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

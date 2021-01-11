@@ -1,0 +1,27 @@
+ ! NOAA/PMEL TMAP
+ ! FERRET v6.02  
+ ! Linux(g77) 2.4.21-32 - 04/30/07
+ ! 19-Jun-07 18:08     
+
+go Ferret_palette_viewer
+use coads_climatology
+go Ferret_palette_viewer.jnl
+sp cl
+sp clear
+go Ferret_palette_viewer.jnl
+go Ferret_palette_viewer.jnl
+set mode verify
+go Ferret_palette_viewer.jnl
+go Ferret_palette_viewer.jnl
+go Ferret_palette_viewer.jnl
+go Ferret_palette_viewer.jnl
+sp dos2unix Ferret_palette_viewer.jnl
+go Ferret_palette_viewer.jnl
+cancel win 1
+sp dos2unix palette_viewer.jnl
+go palette_viewer.jnl
+set win 1
+go palette_viewer.jnl
+cancel win 1
+go palette_viewer.jnl
+q

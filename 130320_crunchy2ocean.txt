@@ -1,0 +1,9 @@
+Wed 20 Mar 2013 09:13:30 PM PDT
+
+[durack1@crunchy durack1]$ rsync -vrutiz matlab oceanonly:/work/durack1/
+
+...
+
+sent 413222864 bytes  received 67333 bytes  11979426.00 bytes/sec
+total size is 536178916  speedup is 1.30
+[durack1@crunchy durack1]$

@@ -1,0 +1,33 @@
+31-Oct-00
+~~~~~~~~~
+Reworking for productivity paper.
+
+Using only original WOD98 & CSIRO MLD estimates (which span 90-190E,
+55S-5N?), use mld_drive.m to remap to [90 180 -50 0] to extend analysis
+from 100E to 90E. Note that this is not a good mapping in the extended area
+because no data to the west of mapping, but is much easier than 
+regenerating the whole dataset.
+
+Just done CARS2000 NO3 maps, but do a special one for 10m depth, so that
+have semi-annual harmonics to improve seasonal cycle comparison. This 
+extra map also done from 90E, and with rmax expanded for 2300km to prevent
+bad structure in SW data-void.
+
+Rerun CZCS/getcol.m (fit=1, ie using /home/eez_data/czcs/seas_fit_czcs.nc 
+rather than /home/eez_data/czcs/av_month_czcs.nc) to expand this field
+to 90E.
+
+Tried correlation-region map with colour blending through gaps between 
+regions (reg_map_fancy.m), but decided best just to grey-fill these gaps.
+
+12-Dec-00
+~~~~~~~~~
+Just refining plots.
+
+24may01
+~~~~~~~
+More on plots. Refined numberred_regions plot with stippling to show low
+seasonal cycle regions, using ranges from vrng.mat, and
+stipple(x,y,no3_vrng,0,.25,1,'-',.5,2,'color',[.3 .3 .3])
+stipple(x,y,mld_vrng,0,12,1,'-',.5,1,'color',[.5 .2 .2])
+

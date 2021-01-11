@@ -1,0 +1,154 @@
+ ! NOAA/PMEL TMAP
+ ! FERRET v6.02  
+ ! Linux(g77) 2.4.21-32 - 04/30/07
+ ! 19-Jun-07 17:53     
+
+Ferret_palette_viewer.jnl
+Ferret_palette_viewer
+run Ferret_palette_viewer
+source Ferret_palette_viewer
+source Ferret_palette_viewer.jnl
+go Ferret_palette_viewer.jnl
+go Ferret_palette_viewer
+go try_palette red
+go try_palette rnb
+go Ferret_palette_viewer
+use coads_climatology
+go Ferret_palette_viewer
+use coads_climatology
+set reg/l=6
+define symbol var  = uwnd[d=1]
+define symbol flev = (-16,16,1)
+! Suppose you are in  /home/myname/ferret_files and
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file
+     !      (without the path) as
+     !
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     !
+     ! and enter the txt file name against pal_list
+     define symbol palt_list = palette_list.txt
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+     define symbol my_palettes = my_palettes.txt
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+! Suppose you are in  /home/myname/ferret_files and
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file
+     !      (without the path) as
+     !
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     !
+     ! and enter the txt file name against pal_list
+     define symbol palt_list = palette_list.txt
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+     define symbol my_palettes = my_palettes.txt
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+! Suppose you are in  /home/myname/ferret_files and
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file
+     !      (without the path) as
+     !
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     !
+     ! and enter the txt file name against pal_list
+     define symbol palt_list = palette_list.txt
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+     define symbol my_palettes = my_palettes.txt
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+let npalettes=my_palettes.txt
+! Suppose you are in  /home/myname/ferret_files and
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file
+     !      (without the path) as
+     !
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     !
+     ! and enter the txt file name against pal_list
+     define symbol palt_list = palette_list.txt
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+     define symbol my_palettes = my_palettes.txt
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+! Suppose you are in  /home/myname/ferret_files and
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file
+     !      (without the path) as
+     !
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     !
+     ! and enter the txt file name against pal_list
+     define symbol palt_list = palette_list.txt
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+     define symbol my_palettes = my_palettes.txt
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+! Suppose you are in  /home/myname/ferret_files and
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file
+     !      (without the path) as
+     !
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     !
+     ! and enter the txt file name against pal_list
+     define symbol palt_list = palette_list.txt
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+     define symbol my_palettes = my_palettes.txt
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"
+sp
+sp ls
+sp rm palette_list.txt
+q

@@ -1,0 +1,125 @@
+% DRIVE_MIXLD_BOA  Compute MLD for one or more entire BOA obs-level datasets. 
+%
+% CANNOT use TAO at this stage because T and S can be at different depths
+%
+% USAGE: drive_mixld_boa(dsets)
+
+function drive_mixld_boa(dsets)
+
+if nargin<1 | isempty(dsets)
+   dsets = [7 9 11 13 19 21 22 23 24 31 35];
+   nans = input(['Dsets (default [' num2str(dsets) ']) : ']); 
+   if ~isempty(nans)
+      dsets = nans;
+   end
+end
+   
+drng = [0 500];
+dcsl = 1:45; 
+zcsl = csl_dep(dcsl,3);
+
+% -------- Get the data ---------------------------------------
+% Dataset can now be so huge, so we break down the loading process to
+% regional chunks and loop on datasets.
+
+[xch,ych] = meshgrid(0:10:350,-80:10:80);
+   
+lms = [.2 .03 .06 .003 20 .4 .06];
+
+note = {'MLD is min of mlds 1-2. This is designed for excluding ML waters',
+	'from T/S mapping - a better est for bio work maybe min([2 4])',
+	['mlds(1) is interp depth of abs(t-t(10m))=' num2str(lms(1))],
+	['mlds(2) is interp depth of abs(s-s(10m))=' num2str(lms(2))],
+	['mlds(3) is first depth of abs(D-D(10m))=' num2str(lms(3))],
+	[' OR dDdz > ' num2str(lms(4)) ', where D=sw_dens0'],
+	['mlds(4) is interp depth of abs(t-t(10m))=' num2str(lms(6))],
+	['mlds(5) is first depth of abs(D-D(10m))=' num2str(lms(7))],
+	'--- Flags:', 
+	'  -3 = cast too small or no ref value',
+	'  -1 = falls in too big a gap',
+	'   0 = not enough data',
+	'   2 = good',
+	'   9 = deeper than profile which nearly full water depth'};
+	
+
+for ds = dsets(:)'
+   disp(['Dset ' num2str(ds)]);
+   if ds==11
+      disp('Using CSL data for Argo')
+   end
+
+   if any(ds==[9 22 42 52])
+      % Allow interpolation across a bigger (30m) gap for bottle data.
+      lms(5) = 30;
+   else
+      lms(5) = 20;
+   end
+   
+   n = 0;
+
+   
+   lon = single([]);
+   lat = single([]);
+   mlds = single([]);
+   MLD = single([]);
+   pdep = single([]);
+   flgs = int8([]);
+
+   [time,stn] = deal([]);
+
+   for cc = 1:prod(size(xch))
+      chnk = [xch(cc) xch(cc)+10 ych(cc) ych(cc)+10];
+
+      if ds==11
+	 [la,lo,stns,tim,bdep,tt,ss] = get_all_csl3(...
+	     chnk,[1 2 4],[1 2],ds,dcsl,2,0,1);
+	 zd = repmat(zcsl,[length(la) 1]);
+      else
+	 [la,lo,zd,stns,tim,bdep,tt,ss] = get_all_obs(...
+	     chnk,[1 2 4],[1 2],ds,drng,[],[],2,[],0,1);
+      end
+      gdc = 1:length(la);
+      
+      % Check for any profiles already extracted, and set to nan so they will
+      % be ignored.
+      [tmp,got] = intersect(stns,stn);
+      if ~isempty(got)
+	 gdc(got) = [];
+      end
+            
+      if size(tt,2) ~= size(ss,2)
+	 ndep = min([size(tt,2) size(ss,2)]);
+	 tt = tt(:,1:ndep);
+	 ss = ss(:,1:ndep);
+	 zd = zd(:,1:ndep);
+      end	 
+
+      new = n + (1:length(gdc));
+      
+      mlds(new,1:5) = nan;
+      flgs(new,1:5) = 0;
+      MLD(new) = nan;
+      pdep(new) = nan;
+      
+      lat(new) = la(gdc);
+      lon(new) = lo(gdc);
+      time(new) = tim(gdc);
+      stn(new) = stns(gdc);
+      
+      for ii = gdc
+	 n = n+1;
+	 [tmpm,tmpf,pd] = mixld(tt(ii,:),ss(ii,:),zd(ii,:),...
+				la(ii),lo(ii),bdep(ii),lms,0);
+	 mlds(n,:) = tmpm';
+	 flgs(n,:) = tmpf';
+	 MLD(n) = min(tmpm(1:2));
+	 pdep(n) = pd;
+      end
+   end
+
+   fnm = ['mlds_' num2str(ds) '_new']; 
+   save(fnm,'note','lat','lon','time','stn','mlds','MLD','flgs','pdep');
+end
+
+%-----------------------------------------------------------------------------
+

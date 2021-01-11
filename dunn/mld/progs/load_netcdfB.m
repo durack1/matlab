@@ -1,0 +1,162 @@
+% load_netcdfB: differs from load_netcdf in that just use float rather than 
+%       short variables.
+%
+% Load MLD maps into a netcdf file
+%
+% INPUT
+%   fnm - name of mat file to load from
+%
+
+function load_netcdfB(fnmi)
+
+iFillValue_ = -32766;
+FillValue_ = -999999;
+
+load(fnmi)
+
+ncquiet
+
+fnm = 'mld_mapped_new.nc';
+nc = netcdf(fnm,'clobber');
+
+tmp = 'MLD mean and temporal harmonics';
+disp(['Title: ' tmp])
+nc.title = tmp;
+
+if exist('details','var')
+   tmp = ['Mixed Layer Depth seasonal fields by loess mapping: ' details];
+elseif exist('Note','var')
+   tmp = Note{1};
+   for ii = 2:length(Note)
+      tmp = [tmp ' ' Note{ii}];
+   end
+else
+   tmp = '?';
+end
+disp(['Description: ' tmp])
+ss = input('Input alternate Description if required: ','s');
+if isempty(ss)
+   nc.description = tmp;
+else
+   nc.description = ss;
+end
+nc.history = ['Created on ' date ' by Jeff Dunn, CSIRO Marine & Atmospheric Research, CAWCR'];
+
+[status, w] = unix('whoami');
+nc.author = w(1:end-1);
+nc.date = datestr(now, 0);
+
+% Define dimensions
+if exist('x','var')
+   if min(size(x))>1
+      x = x(1,:);
+      y = y(:,1)';
+   end
+elseif exist('Xg','var')
+   x = Xg; y = Yg;
+end
+   
+nc('lon') = length(x);
+nc{'lon'} = ncfloat('lon');
+nc{'lon'}.long_name = 'Longitude';
+nc{'lon'}.cartesian_axis = 'X';
+nc{'lon'}.units = 'degrees_east';
+nc{'lon'}.ipositive = ncint(1);
+nc{'lon'}(:) = x;
+
+nc('lat') = length(y);
+nc{'lat'} = ncfloat('lat');
+nc{'lat'}.long_name = 'Latitude';
+nc{'lat'}.cartesian_axis = 'Y';
+nc{'lat'}.units = 'degrees_north';
+nc{'lat'}.ipositive = ncint(1);
+nc{'lat'}(:) = y;
+
+% Define variables
+% Note: doing a fudge here to get around a bug in the netcdf system. We are
+% making up an attribute called SF, which will be renamed to scale_factor
+% at the bottom of this code, because if we call it scale_factor now it will
+% be forced to the same datatype as the corresponding variable (and .01 as
+% a short is not very useful!).
+
+nc{'mean'} = ncfloat('lat','lon');
+nc{'mean'}.long_name = 'mean mixed layer depth';
+nc{'mean'}.units = 'meters';
+nc{'mean'}.ipositive = ncint(-1);
+nc{'mean'}.positive = 'down';
+nc{'mean'}.FillValue_ = FillValue_;
+
+nc{'an_cos'} = ncfloat('lat','lon');
+nc{'an_cos'}.long_name = 'Cosine of annual signal';
+nc{'an_cos'}.units = 'meters';
+nc{'an_cos'}.ipositive = ncint(-1);
+nc{'an_cos'}.positive = 'down';
+nc{'an_cos'}.FillValue_ = FillValue_;
+    
+nc{'an_sin'} = ncfloat('lat','lon');
+nc{'an_sin'}.long_name = 'Sine of annual signal';
+nc{'an_sin'}.units = 'meters';
+nc{'an_sin'}.ipositive = ncint(-1);
+nc{'an_sin'}.positive = 'down';
+nc{'an_sin'}.FillValue_ = FillValue_;
+
+if exist('sa','var')
+   nc{'sa_cos'} = ncfloat('lat','lon');
+   nc{'sa_cos'}.long_name = 'Cosine of semi-annual signal';
+   nc{'sa_cos'}.units = 'meters';
+   nc{'sa_cos'}.ipositive = ncint(-1);
+   nc{'sa_cos'}.positive = 'down';
+   nc{'sa_cos'}.FillValue_ = FillValue_;
+    
+   nc{'sa_sin'} = ncfloat('lat','lon');
+   nc{'sa_sin'}.long_name = 'Sine of semi-annual';
+   nc{'sa_sin'}.units = 'meters';
+   nc{'sa_sin'}.ipositive = ncint(-1);
+   nc{'sa_sin'}.positive = 'down';
+   nc{'sa_sin'}.FillValue_ = FillValue_;
+end
+
+nc{'q_radius'} = ncshort('lat','lon');
+nc{'q_radius'}.long_name = 'Data source radius (min axis of ellipse)';
+nc{'q_radius'}.units = 'km';
+nc{'q_radius'}.FillValue_ = iFillValue_;
+nc{'q_radius'}.add_offset = 0;
+nc{'q_radius'}.scale_factor = 1;
+
+rq(isnan(rq)) = iFillValue_;
+nc{'q_radius'}(:) = round(rq);
+    
+nc{'q_ndata'} = ncshort('lat','lon');
+nc{'q_ndata'}.long_name = 'Number of data used in mapping';
+nc{'q_ndata'}.units = 'counts';
+nc{'q_ndata'}.FillValue_ = iFillValue_;
+
+nq(isnan(nq)) = iFillValue_;
+nq(nq>32766) = 32766;
+nc{'q_ndata'}(:) = round(nq);
+
+mn(isnan(mn)) = FillValue_;
+nc{'mean'}(:) = mn;
+
+tmp = real(an);
+tmp(isnan(tmp)) = FillValue_;
+nc{'an_cos'}(:) = tmp;
+
+tmp = imag(an);
+tmp(isnan(tmp)) = FillValue_;
+nc{'an_sin'}(:) = tmp;
+
+if exist('sa','var')
+   tmp = real(sa);
+   tmp(isnan(tmp)) = FillValue_;
+   nc{'sa_cos'}(:) = tmp;
+
+   tmp = imag(sa);
+   tmp(isnan(tmp)) = FillValue_;
+   nc{'sa_sin'}(:) = tmp;
+end
+
+nc = close(nc);
+
+
+% --------------- End load_netcdf.m -----------------

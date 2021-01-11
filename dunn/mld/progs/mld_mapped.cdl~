@@ -1,0 +1,53 @@
+netcdf mld_cars05a {
+dimensions:
+	lat = 201 ;
+	lon = 721 ;
+variables:
+	float lon(lon) ;
+		lon:long_name = "longitude" ;
+		lon:units = "degrees_east" ;
+		lon:valid_range = 0.f, 360.f ;
+	float lat(lat) ;
+		lat:long_name = "latitude" ;
+		lat:units = "degrees_north" ;
+		lat:valid_range = -90.f, 90.f ;
+	short mean(lat, lon) ;
+		mean:long_name = "mean" ;
+		mean:units = "metre" ;
+		mean:scale_factor = 0.1 ;
+		mean:add_offset = 0. ;
+		mean:_FillValue = -32767s ;
+	short an_cos(lat, lon) ;
+		an_cos:long_name = "annual cosine" ;
+		an_cos:units = "metre" ;
+		an_cos:scale_factor = 0.1 ;
+		an_cos:_FillValue = -32767s ;
+	short an_sin(lat, lon) ;
+		an_sin:long_name = "annual sine" ;
+		an_sin:units = "metre" ;
+		an_sin:scale_factor = 0.1 ;
+		an_sin:_FillValue = -32767s ;
+	short sa_cos(lat, lon) ;
+		sa_cos:long_name = "semi-annual cosine" ;
+		sa_cos:units = "metre" ;
+		sa_cos:scale_factor = 0.1 ;
+		sa_cos:_FillValue = -32767s ;
+	short sa_sin(lat, lon) ;
+		sa_sin:long_name = "semi-annual sine" ;
+		sa_sin:units = "metre" ;
+		sa_sin:scale_factor = 0.1 ;
+		sa_sin:_FillValue = -32767s ;
+	short q_ndata(lat, lon) ;
+		q_ndata:long_name = "Number of datapoints used in mapping" ;
+		q_ndata:units = "count" ;
+		q_ndata:_FillValue = -32767s ;
+	short q_radius(lat, lon) ;
+		q_radius:long_name = "Data source radius (min axis of ellipse)" ;
+		q_radius:units = "km" ;
+		q_radius:_FillValue = -32767s ;
+
+// global attributes:
+		:title = "mld mean and temporal harmonics" ;
+		:history = "Jeff Dunn created on 30-Oct-2006. CSIRO Marine & Atmospheric Research. Loaded from mld_may06.mat" ;
+		:description = "Mapped from BOAO 2005 profiles using var MLD, which is minof mlds(1) and mlds(2), that is, abs(t-t(10m)) > 0.2 and abs(s-s(10m)) > 0.03. Mapped using mapmld, using 10degree zonal chunks, dsets 7,9,11,13,19,21,22,23,31,35, and 12degree zonal chunk extensionswith loess options Q=500 rmin=400 bogus=1 xw=1.5.   JRD 10/5/06" ;
+}

@@ -1,0 +1,71 @@
+!
+! Description : jnl script to see and choose desired pallets from a given
+!                   list, for a specific variable/field.
+!
+! NOTES : 1. Needs a Ferret version which supports /RANGE qualifier to 
+!               REPEAT command.
+!         2. Follow the instructions to make a list of good palettes :
+!               press  s  and  ENTER   to SAVE  and  just  ENTER  to skip.
+!         3. Input : a list of palette files to be tested (palt_list, see below)
+!            Output: a list of selected palette files (my_palettes, see below)
+!
+! Written By : Jaison Kurian
+! Written On : 13/June/2007
+!
+!--------------------------------------------------------------------------
+!
+!----USER INPUTS
+!
+
+     set reg/l=6                    ! set your desired region here
+
+     define symbol var  = uwnd[d=1] ! variable to be plotted; use respective
+                                    !   dataset number since we load one 
+                                    !   more data file soon
+     define symbol flev = (-16,16,1)! /LEVELS for fill command, always choose
+                                    !   the final levels you want to use
+
+     ! Suppose you are in  /home/myname/ferret_files and 
+     !   Ferret is installed at /usr/local/ferret.
+     !   Then list the *.spk files and save the output to a text file 
+     !      (without the path) as
+     ! 
+     ! [user@machine]$ cd /usr/local/ferret/ppl
+     ! [user@machine]$ ls *.spk > /home/myname/ferret/palette_list.txt
+     ! [user@machine]$ cd /home/myname/ferret
+     ! 
+     ! and enter the txt file name against pal_list
+
+     define symbol palt_list = palette_list.txt
+
+     ! below, enter the desired output txt file name, which will contain
+     !    all selected palette file names
+
+     define symbol my_palettes = my_palettes.txt  
+     
+!
+!----NO NEED TO MODIFY ANYTHING BELOW
+!
+     let npaletts = {spawn:"cat ($palt_list) | wc -l"}
+
+     define axis/x=1:`npaletts`:1 xfile
+     define grid/x=xfile   gfile
+
+     FILE/grid=gfile/FORMAT=DELIMITED/TYPE="TEXT"/var="spk"  "./($palt_list)"   
+
+     sp rm -f ($my_palettes)
+     REPEAT/RANGE=1:`npaletts`:1/NAME=pp (            ;\
+          define symbol pp1 = `pp`                    ;\
+          let plt = "`spk[d=($palt_list),i=($pp1)]`"  ;\
+          fill/pal=`plt`/lev=($flev)                   \
+             /title="PALETTE    :     `plt`" ($var)    ;\
+          say "  Press   s  and  ENTER  to SAVE   or  just  ENTER  to  SKIP" ;\
+          let choice = "`{spawn:"head -1"}`"          ;\ 
+          let option = DNCASE(choice)                 ;\
+          IF `option EQ "s"` THEN                     ;\
+             list/nohead/format=(2x,a)/file=($my_palettes)/append/quiet  plt ;\
+          ENDIF                                       ;\
+     )
+     cancel data ($palt_list)
+
+

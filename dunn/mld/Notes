@@ -1,0 +1,216 @@
+	Notes for MLD analysis 
+	~~~~~~~~~~~~~~~~~~~~~~
+
+(taking up at where Melissa Tipping finished working on my original work).
+
+In Dec 97 produced MLD estimates from OBSERVED LEVEL WOA94 casts. 
+Melissa used gethydobs to redo this analysis with WOA98 data.
+
+
+31-May-99
+~~~~~~~~~
+New work ideas after reading Melissa.rpt (which she called "read_me"):
+
+ - recalc with WOD98
+
+ - perform residual screening on mapping (or was it done previously?)
+
+ - use data to 450 or 500m, since some MLs go a bit beyond 400m.
+
+ - examine magnitude of seasonal harmonics after mapping as a diagnostic
+   or bad data or mapping
+
+ - do correlations with nutrient as well as MLD maps 
+
+ - do time-lagged correlations
+
+ - refine bathy treatment by giving a NaN in regions where a certain 
+   percentage of casts are mixed to bottom, or any casts are and the
+   bottom depth is less than some value. This would prevent over-shoaling
+   on MLDs in shelf waters.
+
+ - ensure that min Q are used in mappings, as best available methods
+   are used (could use BARS, Bogus, bathyweight etc). Varsort WAS used.
+
+7-July-99
+~~~~~~~~~
+End of reworking analysis for the CZCS correlation presentation. MLD map
+still very poor, especially with huge blobs in mean and seasonal magnitudes
+in the south. This is of course due to very poor data distribution, but
+especially where shallow seasonal MLs are very difficult to discern in deep
+"permanent" almost isothermal & isohaline layers. Fine tuning thresholds can
+cause estimates to jump between 40 and 400m!
+
+Progress by:
+  - using fine thresholds to capture real MLs rather than stale iso-property
+    layers
+  - use min of dSigma/dz, delT, delS  (but care with dSigma/dz because it often
+    detects at the very top (10m) of the profile.
+  - map with long lengthscales and maybe with something like seasonal subsample
+    mean-only maps, to get smooth and robust mean fields. Use these either to
+    to map seasonal cycles as anomalies, or use to screen prior to normal
+    loess mapping. 
+  - rely on screening to reject bad estimates [latest screening selected ONLY
+    too-deep casts. Maybe that is fair, or maybe we need to look again at the
+    curly issue of percentile screening, especially in multi-nodal areas like
+    the EAC.]
+  - manually thin surveys which result in anomolously high spatial & temporal
+    data densities [eg where mean density over a large region is low, then a
+    survey with sampling every 1/4 degree may be too dense. Such a case occurs
+    at around 50S 140E.] Maybe auto-declustering could be tuned to address this
+    especially in actual date rather than day-of-year is used.
+  - discontinuities in NQ arise from some sort of problem in varsort!    
+  - coastal/shelf data could be completely excluded from oceanic mapping, as
+    it not only shrinks length scales but also tilts mapping planes causing
+    overshoot in data voids.
+  - do not interp high res casts to 2m. (on tests this had extremely minimal
+    impact, so don't proceed with this.)
+ 
+8-July-99
+~~~~~~~~~
+Refined MLD definitions in mixld.m.
+Reworked all DPG (incl very latest) and WOD98 casts.
+ 
+New mapping:
+  - map with q1=500, q2=100.
+  - use only data where bottom > 100m (and only map such areas). (mapA)
+  - decluster and map (mapB) [this made negligible difference]
+
+NOTE: Should be a major effect if go to using full-res WOD98 instead of 
+      thinned data!!
+  - using modified gethydobs.m (called gethires.m) called by woa_drive,
+    create mld files for each WMO, then collate these with comb_woa.m to
+    generate wod_hres.mat.
+
+  - do same for normal obs files
+
+  - compare the casts in both datasets (using the CPNs to match).
+
+  - replace low-res MLDs with the hi-res counterparts (NOTE that of the 8790
+    hi-res MLDs, 1497 were absent from the lo-res dataset, because the low-res
+    had lost the necessary detail to distinguish the ML.)
+    Saved to file new_woa_tot.mat.
+
+  *** Had not yet dup-checked between CSIRO and WOD98! Achieve this for the
+      MLDs using woa_dpg_dupchk.m.
+
+  - DPG and WOD (less DPG-duplicates) saved to file comb_mlds.mat
+
+  - map again with >100 m data (mapC)
+
+  - without first declustering, crudely thin manually defined clusters 
+    (arbitrarily skip every second one in cluster)  (mapD)
+
+ ? - decluster & remap
+ ? - screen & remap 
+
+Maps above were still poor. Detailed examination of data in region SW of
+Tassie should how this was due to
+   - multi-modality in MLD estimates due to different mixing processes (so
+     that in one survey the estimates can flick between 20m and 300m)
+   - pathological data distributions
+
+12-July-99
+~~~~~~~~~~
+Try to extend length scales to get a less structured result in data-poor
+areas by thinning data in rich (coastal) areas which otherwise act as limits
+to radius lengthening. Do this by taking bin means of data (and their doy's
+and locations) on a fine spatial and temporal grid, using reduce_dat.m.
+This could be regarded as another form of declustering or as super-ob-ing.
+
+  - initially try .1 degree and monthly bins. 
+
+  - could do this first with larger spatial bins and using Time instead of
+    DOY, to increase independance of data (ie reduce impact of individual
+    cruises). 
+
+13-July-99
+~~~~~~~~~~
+Tried combinations of thinning, screening & reduc_dat (the above binning
+method). Final version had manual thinning, bdep>120m, screening @ 3 SD 
+residuals, reduc_dat using .2 degree bins, 10 temporal bins. This was 
+smoother and had lower and less structured temporal cycles, but still 
+was clearly dominated by the problems of ambiguous and variable ML estimation,
+one-sided screening (great majority of rejections were winter/deep), and 
+pathological distributions.
+
+Final version called  mld_jul13_map.mat.   
+
+6-Aug-99
+~~~~~~~~
+Repeat above mapping, but using newly debugged varsort. Load jul13_mlds
+and feed directly to mld_chunks using q1=500 q2=100 rmin=50 rmax=1250
+xmarg=2450 ymarg=1450 minlev=6 (xw=1.5 in loess_rq_b). The difference is
+utterly minimal.
+
+
+Convert czcs (from czcs_fit) into czcs2mg [called output"pig"].
+
+Calc corrm and corrn (using no3(2)), and save to corrs.mat
+
+9-Aug-99
+~~~~~~~~
+Realise now need to retrieve shallow water MLD values and mapping. This means
+reworking comb_mlds, rather than directly using jul13_mlds.
+
+12-Aug-99
+~~~~~~~~~
+Still unhappy with MLD map. Used reduc_dat to super-ob min(mlds([1 2],:)) 
+[that is, min of delT & delS MLDS] to .5-degree/monthly 
+bin averages. Plotting 'markerplot' maps of this for summer and winter 
+reinforced the belief that in the south there is a strong & simple seasonal
+cycle throughout a broad zonal & meridional range, the main spatial trend 
+being that summer MLDs remain slightly higher at higher lats. Can't think
+how can impose this on loess, but found that got improved map just by using 
+the same mapping config but using the super-obs as the sole data (did not need
+to otherwise thin, screen, or exclude shallow regions.) 
+
+This then is FINAL product (mld_aug12_map.mat and comb_mlds_sup_ob.mat).
+
+18-Aug-99
+~~~~~~~~~
+Did NO3 mapping using semi-annual as well as annual harmonics (to be compatible
+with all other datasets used). This was dubious because of scarcity of data,
+and clearly had large unrealistic structures in semi-annual coeffs, esp in
+SW. Onthe whole, seasonal cycle amps were increased throughout, but much of
+it may have been plausible. Decided that the SW region does not matter for
+this study (no CZCS to correlate with there anyway). Large regions, such as
+central Tasman, where correlation fields significantly changed (esp towards
+zero correlation). Examined 25S, 155-169E. Confirmed that the seasonal cycle
+DID agree with (sparse) available data, and anyway, maybe a zero corrlation
+is a more reasonable result than a strong +ve or -ve which arises from the 
+slight bowing up or down from tiny annual harmonics forced onto data
+which really doesn't display a clear annual sinusoid.
+
+19-Aug-99
+~~~~~~~~~
+Redoing correlation plots. 
+ set(gca,'Position',[.05 .2 .90 .73])
+ hh = colorbar('horiz');
+ set(hh,'Position',[.15 .11 .70 .02])
+ title('  ','Fontsize',14);
+
+------------------------------------------------------------------------
+May 2006
+~~~~~~~~
+Recent work done in /home/oez5/eez_data/mld/
+
+Calc MLDs for all BOA, initially so could exclude ML from T/S mapping.
+For this purpose, chose lower T threshold of .2C, to be more conservative.
+Really, should have gone to old threshold of .04?
+
+Have calc'ed MLD direct from CARS2005 
+   ->  $hea/mlds_cars05a.mat 
+
+See plots via cars2005.html. Note that these are not actually very useful.
+
+9/5/06 Bronte asked for MLD maps of Tasman, using del Sigma of .06. Reran
+MLD calcs on all BOA to include this criterion { mlds(:,5) } and mapped 
+just using general/loess.m (both monthly and semi-an fitted)
+
+   ->  $hea/mld_may06.mat
+
+AT SOME STAGE I should do proper mapping of entire domain (for each mld and 
+for MLD), and using proper technology (chunks, BAR & declustering at least).
+
+

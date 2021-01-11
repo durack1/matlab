@@ -1,0 +1,159 @@
+From: Dunn, Jeff (CMAR, Hobart) 
+Sent: Wednesday, 29 November 2006 1:53 PM
+To: Hartog, Jason (CMAR, Hobart)
+Cc: Ridgway, Ken (CMAR, Hobart)
+Subject: Re: synTS question
+
+Hi Jason
+
+Thanks for the feedback. The discontinuity at 47S is because at that
+point we switch over to a form of projection (Gravest Empirical Mode -
+GEM) which is more successful in southern waters. Soo - it is not
+pretty, but is a side effect of trying to get best results, on average.
+My tendency would be to leave the discontinuity in the MLD fields, out
+of honesty and a reminder of what sort of product we a dealing with.
+
+synTS is not at all optimal for hindcasting profile shape - hence MLD.
+It is derived from mean T,S at each depth, and perturbed by
+T,H(0)->T(z),S(z) relations, so the vertical structure is sort of
+incidental and if anything can be predicted about it - you would guess
+it would be smeared! That said, when using Tz-T0 and Sz-S0 MLD tests
+then, because it does a reasonable job of relating T and S to SST, one
+could expect it to have some skill. It will enormously underestimate
+variability of MLD, and I expect tend to overestimate MLD (because
+smallscale structure is lost.)  Anyway, I would not say "do not use it"
+- it is plausible that it can provide some small amount of skill - and
+if you can convince yourself of that then I'm all for it!  If someone
+comes along with an EOF or other vertical-structure-based projection
+method [which we would like to do oneday] then certainly assess that
+product, because in theory it should be better for MLD. The best option
+should eventually be model nowcasts.
+
+I've cc'ed this to Ken so he can tell you how much of the above is total
+garbage!
+
+Cheers
+  Jeff
+
+
+
+
+
+
+> From: "Hartog, Jason \(CMAR, Hobart\)" <Jason.Hartog@csiro.au>
+> To: "Dunn, Jeff \(CMAR, Hobart\)" <Jeff.Dunn@csiro.au>
+> 
+Jeff
+ 
+Sorry to keep bugging you with questions, but I think I've found
+something that may be of interest to you.
+ 
+I was looking at the results implementing the method that you used in
+determining the CARS MLD and came across some curious results in an area
+south of NZ.  I looked further at the temperature profiles in that area,
+and got some results where the profile changes dramatically from one box
+to the other around 47S.
+ 
+I've attached some maps of the temp at depth for the region that is
+causing problems.
+ 
+My questions....
+ 
+ 
+Are you aware of this?
+Is it correct?
+How does one handle the resulting MLD which also has deep MLD on on side
+of the "knife edge" and shallow on the other?
+ 
+And a related question.  Is synTS an appropriate product for calculating
+a MLD for the australasian region?  Apart from some of these glithces,
+it appears to be giving pretty good results.
+ 
+ 
+Jason
+ ------------------------------------------------------------------
+Subject: RE: CARS MLD, what do negative values in the "mean" field mean
+Date: Mon, 26 Nov 2007 11:15:40 +1100
+From: "Slawinski, Dirk \(CMAR, Floreat\)" <Dirk.Slawinski@csiro.au>
+To: "Dunn, Jeff \(CMAR, Hobart\)" <Jeff.Dunn@csiro.au>
+Cc: "Feng, Ming \(CMAR, Floreat\)" <Ming.Feng@csiro.au>
+
+Jeff,
+  no worries on the delayed response. Thanks for the clarification and
+yes it does make sense that the values are such based on the methods
+use.  I think for our purposes we'll set the values to zero for now and
+mask out those that are relatively too shallow.  Thanks again.
+
+- Dirk 
+
+-----Original Message-----
+From: Dunn, Jeff (CMAR, Hobart) 
+Sent: Monday, 26 November 2007 9:09 AM
+To: Slawinski, Dirk (CMAR, Floreat)
+Subject: RE: CARS MLD, what do negative values in the "mean" field mean
+
+Hi Dirk
+
+Sorry - I didn't get to work on Friday.
+
+The -ve values in the mean field in mld_cars05a.nc all arise where the
+mapping 
+has had to extrapolate inshore of any real observations. In these cases
+the 
+shorewards-shoaling of MLD has extrapolated to a -ve value, which is of
+course 
+not physically correct. (It could be argued that no form of
+extrapolation should 
+be used, but there are always trade-offs and counter-examples for each
+method - 
+just have to keep in mind that mapping is always an approximation.)
+
+Anyway, the first concern would be that unrealistic values like this
+indicate 
+that something is grossly wrong. I believe this is not the case, and
+that these 
+places are where very shallow ML commonly occur. Whether you replace
+these with 
+0 or some small value must depend on what is most useful and appropriate
+to your 
+application. (I guess another angle on splitting hairs about shallow ML
+is that 
+this analysis is based on CTD data. The "sea surface" value of a CTD
+cast is 
+actually taken from the bottom of the CTD which is stationed "just belwo
+the 
+surface", so is somewhere between 2 and 5m depth, depending on seastate
+and the 
+care of the operator!)  
+
+Hope this makes sense and is useful
+
+ Cheers
+   Jeff
+> Hi Jeff,
+>    Thanks for getting back to me.  I load the file in via matlab:
+> 
+> 	clear all;
+> 
+> 	CARSDIR = '/home/common/cars/aust0.5'; % local Florear location
+> of CARS
+> 
+> 	fname = sprintf('%s/mld_cars05a.nc', CARSDIR);
+> 
+> 	mld_mean = getnc(fname, 'mean');
+> 	range(mld_mean)
+> 
+> And this returns:
+> 
+> 	ans =
+> 		-8.8000	199.4000
+> 
+> I did the check as I found some negative values after making the
+monthly
+> fields.  I'll set the values to zero for the time being but it would
+be
+> nice to see why the values are there.
+> 
+> - Dirk
+> 	
+------------------------------------------------------------------------
