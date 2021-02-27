@@ -43,6 +43,7 @@ function [home_dir,work_dir,data_dir,obs_dir,username,a_host_longname,a_maxThrea
 % PJD 26 Mar 2013   - Updated for oceanonly
 % PJD 16 Dec 2019   - Updated for detect
 % PJD 27 Feb 2021   - Updated for ml-9585568, gates
+% PJD 27 Feb 2021   - Adding java example for MACI - username
 
 % myMatEnv.m
 
@@ -108,6 +109,8 @@ elseif ispc
     [~,username] = dos('set | find "USERNAME="');
     username = strtrim(regexprep(username,'USERNAME=',''));
     %path_split = {'\','/'};
+elseif regexp(computer,'MACI')
+    username = java.lang.System.getProperty('user.name');
 end
 if ~strcmp(username,'dur041') && ~strcmpi(username,'Duro') && ~strcmp(username,'durack1')
     disp('MYMATENV.M: NON-dur041/Duro/durack1 user determined, continuing..')
