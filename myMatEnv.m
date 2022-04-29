@@ -42,6 +42,8 @@ function [home_dir,work_dir,data_dir,obs_dir,username,a_host_longname,a_maxThrea
 % PJD 14 May 2012   - Added obs_dir output
 % PJD 26 Mar 2013   - Updated for oceanonly
 % PJD 16 Dec 2019   - Updated for detect
+% PJD 27 Feb 2021   - Updated for ml-9585568, gates
+% PJD 27 Feb 2021   - Adding java example for MACI - username
 % PJD 29 Apr 2022   - Updated for detect /work/durack1 switchout
 
 % myMatEnv.m
@@ -108,6 +110,8 @@ elseif ispc
     [~,username] = dos('set | find "USERNAME="');
     username = strtrim(regexprep(username,'USERNAME=',''));
     %path_split = {'\','/'};
+elseif regexp(computer,'MACI')
+    username = java.lang.System.getProperty('user.name');
 end
 if ~strcmp(username,'dur041') && ~strcmpi(username,'Duro') && ~strcmp(username,'durack1')
     disp('MYMATENV.M: NON-dur041/Duro/durack1 user determined, continuing..')
@@ -141,10 +145,11 @@ if regexp(computer,'GLNX')
         obs_dir  = [work,username,'/Shared/obs_data/'];
     end
 elseif regexp(computer,'MACI')
-    home_dir = '/Volumes/durack1m1_hdd/sync/Shared/';
-    work_dir = '/Volumes/durack1m1_hdd/sync/Work/';
-    data_dir = '/Volumes/durack1m1_hdd/sync/cmar_csiro/';
-    obs_dir  = '/Volumes/durack1m1_hdd/sync/Shared/obs_data/';
+    a_host_longname = java.net.InetAddress.getLocalHost.getHostName;
+    home_dir = '/Volumes/durack1ml/sync/Shared/';
+    work_dir = '/Volumes/durack1ml/sync/Work/';
+    data_dir = '/Volumes/durack1ml/sync/cmar_csiro/';
+    obs_dir  = '/Volumes/durack1ml/sync/Shared/obs_data/';
 elseif strcmp(computer,'PCWIN64')
     a_host_longname = [getenv('COMPUTERNAME'),'.',getenv('USERDNSDOMAIN')];
     if strcmp(a_host_longname,'TRUSTY.')
