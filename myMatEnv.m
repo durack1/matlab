@@ -42,6 +42,7 @@ function [home_dir,work_dir,data_dir,obs_dir,username,a_host_longname,a_maxThrea
 % PJD 14 May 2012   - Added obs_dir output
 % PJD 26 Mar 2013   - Updated for oceanonly
 % PJD 16 Dec 2019   - Updated for detect
+% PJD 29 Apr 2022   - Updated for detect /work/durack1 switchout
 
 % myMatEnv.m
 
@@ -133,10 +134,11 @@ if regexp(computer,'GLNX')
         obs_dir  = ['/home/',username,'/Shared/Obs_Data/'];
         disp('MYMATENV.M: work_dir assumed for local /work/..')
     elseif sum(strcmp(a_host_longname,{'crunchy.llnl.gov','oceanonly.llnl.gov','detect.llnl.gov'}))
-        home_dir = ['/work/',username,'/Shared/'];
-        work_dir = '/work/';
-        data_dir = ['/work/',username,'/csiro/'];
-        obs_dir  = ['/work/',username,'/Shared/obs_data/'];
+        work = '/p/user_pub/climate_work/';
+        home_dir = [work,username,'/Shared/'];
+        work_dir = work;
+        data_dir = [work,username,'/csiro/'];
+        obs_dir  = [work,username,'/Shared/obs_data/'];
     end
 elseif regexp(computer,'MACI')
     home_dir = '/Volumes/durack1m1_hdd/sync/Shared/';
@@ -150,7 +152,7 @@ elseif strcmp(computer,'PCWIN64')
         home_dir = 'E:\Research\d14qq1s-hf\Shared\';
         work_dir = 'E:\Research\d14qq1s-hf\working_574\';
         data_dir = 'E:\Research\d14qq1s-hf\cmar_csiro\';
-        obs_dir  = 'E:\Research\d14qq1s-hf\Shared\obs_data\';        
+        obs_dir  = 'E:\Research\d14qq1s-hf\Shared\obs_data\';
     end
     if strcmp(a_host_longname,'D14QQ1S-HF.NEXUS.CSIRO.AU')
         home_dir = 'C:\Sync\Shared\';
