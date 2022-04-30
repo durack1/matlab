@@ -8,6 +8,7 @@ function continents(color,edge,nmin)
 % PJD 28 Mar 2012   - Updated for crunchy paths
 % PJD 27 Mar 2013   - Updated for oceanonly
 % PJD  9 Jan 2021   - Updated for detect
+% PJD 30 Apr 2022   - Updated for climate_work path
 
 if nargin < 1, color = [.6 .6 .6]; end
 if nargin < 2, edge = 'k'; end
@@ -15,7 +16,7 @@ if nargin < 3, nmin = 3; end
 
 if isunix
     if sum(strcmp(getenv('HOSTNAME'),{'crunchy.llnl.gov','oceanonly.llnl.gov','detect.llnl.gov'}))
-        load('/work/durack1/csiro/toolbox-local/csirolib/xy_map_patch')
+        load('/p/user_pub/climate_work/durack1/csiro/toolbox-local/csirolib/xy_map_patch')
     else
         load('/home/argo/matlab/plot/xy_map_patch')
     end
